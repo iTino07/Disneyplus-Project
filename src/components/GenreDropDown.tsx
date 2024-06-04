@@ -16,7 +16,7 @@ async function GenreDropDown() {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjMTc1YWEzMWQzZDk2ZDJkNjQwMzczODliZDAyNDc5ZCIsInN1YiI6IjY2NWQ3ZGU2NTFmZDk4ZmI1NzIzMjUxYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.mXcpfZdpx3EWP6g9Z1NCo4fZG9AnsX1W0sVDxepN3dM`,
+      Authorization: `Bearer ${process.env.KEY_TMDB_API}`,
     },
     next: {
       revalidate: 60 * 60 * 24, // 24 hours
