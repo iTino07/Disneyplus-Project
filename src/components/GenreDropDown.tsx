@@ -8,26 +8,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
+import next from "next";
+import { headers } from "next/headers";
 import Link from "next/link";
 
-async function GenreDropDown() {
-  const url = "https://api.themoviedb.org/3/genre/movie/list?language=en";
-  const options: RequestInit = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${process.env.KEY_TMDB_API}`,
-    },
-    next: {
-      revalidate: 60 * 60 * 24, // 24 hours
-    },
-  };
-
-  const response = await fetch(url.toString(), options);
-  const data = (await response.json()) as Genres;
-
-  console.log(data.genres);
-
+/* 
   return (
     <>
       <DropdownMenu>
@@ -49,6 +34,45 @@ async function GenreDropDown() {
         </DropdownMenuContent>
       </DropdownMenu>
     </>
+  );
+} */
+
+async function GenreDropDown() {
+  const url = "https://api.themoviedb.org/3/genre/movie/list?language=it";
+
+  const options: RequestInit = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      authorization: `Bearer ${process.env.KEY_TMDB_API}`,
+    },
+    next: {
+      revalidate: 60 * 60 * 24,
+    },
+  };
+
+  const response = await fetch(url.toString(), options);
+  const data = (await response.json()) as Genres;
+
+  
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger className="text-white flex justify-center items-center">
+        Genere <ChevronDown className="ml-1" />
+        <DropdownMenuContent>
+          <DropdownMenuLabel>Seleziona il genere</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          {data.genres.map((item) => (
+            <DropdownMenuItem className="cursor-pointer" key={item.id}>
+              <Link href={`/genre/${item.id}?genre=${item.name}`}>
+                {item.name}
+              </Link>
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenuTrigger>
+    </DropdownMenu>
   );
 }
 
